@@ -1,9 +1,14 @@
 .extern start_kernel
 
+.extern task_init
+.extern mm_init
+
 .section .text.init
 .globl _start
 _start:
     la sp, boot_stack_top
+    call mm_init
+    call task_init
     la a0, _traps
     csrw stvec, a0
     li a0, 1 << 5
